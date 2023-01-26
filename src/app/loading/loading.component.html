@@ -1,1 +1,6 @@
 
+<!-- public loadingService: LoadingService | loading$: Observable<boolean>-->
+<!-- me qe loading$ eshte nje vler Observable ose true ose false " async ", na mundeson ti bejme subscribe ketu ne html -->
+<div class="spinner-container" *ngIf="loadingService.loading$ | async">
+    <mat-spinner></mat-spinner>
+</div> 

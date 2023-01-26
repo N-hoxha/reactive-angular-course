@@ -5,6 +5,7 @@ import {catchError, delay, delayWhen, filter, finalize, map, retryWhen, shareRep
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {CourseDialogComponent} from '../course-dialog/course-dialog.component';
 import { CoursesService } from '../service/courses.service';
+import { LoadingService } from '../loading/loading.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(  
-    private coursesService: CoursesService 
+    private coursesService: CoursesService,
+    private loadingService: LoadingService 
   ) {
 
   }
@@ -32,21 +34,28 @@ export class HomeComponent implements OnInit {
   } 
 
   reloadCourses() {
-    const courses$ = this.coursesService.loadAllCourse()
-    .pipe(
+
+    const courses$ = this.coursesService.loadAllCourse().pipe(
       // map mer objeket nje nga nje, te cilat jan Observable array
       map( courses => courses.sort(sortCoursesBySeqNo))
     );
 
-  this.beginnerCourses$ = courses$
-    .pipe(
+    // krijojme nje observebel i ri " const loadCourses$ " 
+    const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$); // marim array me obejkte te cilin e eshte observable
+
+    // dhe e diferencojme ne this.beginnerCourses$ dhe this.advancedCourses$
+     this.beginnerCourses$ = loadCourses$.pipe(
+
+      tap(data => console.log("data BEGINNER", data)),
       map( courses => courses.filter(course => course.category == "BEGINNER"))
-    );
+
+     );
   
-  this.advancedCourses$ = courses$
-    .pipe(
-      map( courses =>  courses.filter(course => course.category == "ADVANCED") )
-    );
+     this.advancedCourses$ = loadCourses$.pipe(
+
+      map( courses =>  courses.filter(course => course.category == "ADVANCED"))
+
+     );
 
 
 
