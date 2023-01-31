@@ -6,6 +6,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {CourseDialogComponent} from '../course-dialog/course-dialog.component';
 import { CoursesService } from '../service/courses.service';
 import { LoadingService } from '../loading/loading.service';
+import { MessagesService } from '../messages/messages.service';
 
 
 @Component({
@@ -22,14 +23,15 @@ export class HomeComponent implements OnInit {
 
   constructor(  
     private coursesService: CoursesService,
-    private loadingService: LoadingService 
+    private loadingService: LoadingService,
+    private messagesService: MessagesService
   ) {
 
   }
 
   ngOnInit() {
 
-    this.reloadCourses();
+    this.reloadCourses();  
 
   } 
 
@@ -37,7 +39,13 @@ export class HomeComponent implements OnInit {
 
     const courses$ = this.coursesService.loadAllCourse().pipe(
       // map mer objeket nje nga nje, te cilat jan Observable array
-      map( courses => courses.sort(sortCoursesBySeqNo))
+      map( courses => courses.sort(sortCoursesBySeqNo)),
+      catchError(err => { // kapim nje error 
+        const message = "Could not load courses";
+        this.messagesService.showErrors(message); // mesazhin e dergojme ne servis duke e regjisturar ne nje string array observable
+        console.log(message, err);
+        return throwError(err);
+      })
     );
 
     // krijojme nje observebel i ri " const loadCourses$ " 
