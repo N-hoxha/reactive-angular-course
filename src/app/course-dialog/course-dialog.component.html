@@ -1,5 +1,7 @@
 <h2 mat-dialog-title>{{course.description}}</h2>
 
+<!-- spinner brenda dialogut, kur thrasim servisin " this.coursesService.saveCourse()" -->
+<loading></loading>
 
 <mat-dialog-content [formGroup]="form">
 
@@ -15,7 +17,7 @@
 
     <mat-select placeholder="Select category"
                 formControlName="category">
-
+ 
       <mat-option value="BEGINNER">
         Beginner
       </mat-option> 
