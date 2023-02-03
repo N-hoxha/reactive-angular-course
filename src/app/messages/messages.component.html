@@ -1,5 +1,6 @@
 
-<ng-container *ngIf="(errors$ | async) as errors"> <!-- nese kemi errors shfaqim container me emertim " errors i cili perfaqeson  *ngFor="let error of errors"" -->
+<!-- " as errors " == " (errors$ | async) ", ku ne e bashkagjisim me " *ngFor="let error of errors" ", nje vecori e fuqishme e html -->
+<ng-container *ngIf="(errors$ | async) as errors"> 
  
     <div class="messages-container" *ngIf="showMessages">
 

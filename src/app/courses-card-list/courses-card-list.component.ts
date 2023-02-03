@@ -15,11 +15,11 @@ export class CoursesCardListComponent implements OnInit  {
 
   @Input() courses: Course[] = [];
 
-  @Output() coursesChanges = new EventEmitter();
+  // @Output() coursesChanges = new EventEmitter();
 
   constructor( private dialog: MatDialog ) {}
 
-  ngOnInit() {
+  ngOnInit() { 
        
   }
 
@@ -36,22 +36,14 @@ export class CoursesCardListComponent implements OnInit  {
 
     // objektin specifik e trasportojme ne componentin CourseDialogComponent
     const dialogRef = this.dialog.open(CourseDialogComponent, dialogConfig);
-
-    // pas mbylljes se dialogut marim response nga " this.dialogRef.close(response); " 
-    // du ke shtuar nje event bosh " this.coursesChanges.emit() ", 
-    // i cili na mundeson ti bej reload faqes ne kohe reale
     
-    // **** nese do provojme nese e fshim, na vin te dhenat ne kohe reale ????????????   
+    // dialogRef.afterClosed() mer listen e tedhenave nga this.dialogRef.close(changes);
+    // funksjoni i meposhtem eshte nje shembull si trasferohen tedhenat nga nje komponent ne tjerin
+ 
     dialogRef.afterClosed().pipe( 
 
-      filter( val => !!val), // i bejme reload " reloadCourses() funstions " kur servisi "  this.coursesService.saveCourse " eshte succesfully
-      // na mundeson ti bejme reload funksjonit (coursesChanges)="reloadCourses()" ne home.component.html
-      // i cili na shfaq te gjitha cards.
-      tap(() => { 
-        this.coursesChanges.emit(); 
-        console.log("Reaload reloadCourses() funstions...")
-          }
-      )).subscribe((data: any) => {
+      filter( val => !!val), 
+     ).subscribe((data: any) => {
       console.log("response after close the dialog", data);
     });
 

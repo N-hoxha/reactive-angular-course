@@ -7,6 +7,7 @@ import {CourseDialogComponent} from '../course-dialog/course-dialog.component';
 import { CoursesService } from '../service/courses.service';
 import { LoadingService } from '../loading/loading.service';
 import { MessagesService } from '../messages/messages.service';
+import { CoursesStore } from '../service/courses.store';
 
 
 @Component({
@@ -14,17 +15,18 @@ import { MessagesService } from '../messages/messages.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit { 
 
   beginnerCourses$: Observable<Course[]>;
- 
+   
   advancedCourses$: Observable<Course[]>;
 
 
   constructor(  
-    private coursesService: CoursesService,
-    private loadingService: LoadingService,
-    private messagesService: MessagesService
+    // private coursesService: CoursesService,
+    // private loadingService: LoadingService,
+    // private messagesService: MessagesService,
+    private coursesStore: CoursesStore
   ) {
 
   }
@@ -37,35 +39,35 @@ export class HomeComponent implements OnInit {
 
   reloadCourses() {
 
-    const courses$ = this.coursesService.loadAllCourse().pipe(
-      // map mer objeket nje nga nje, te cilat jan Observable array
-      map( courses => courses.sort(sortCoursesBySeqNo)),
-      catchError(err => { // kapim nje error 
-        const message = "Could not load courses";
-        this.messagesService.showErrors(message); // mesazhin e dergojme ne servis duke e regjisturar ne nje string array observable
-        console.log(message, err);
-        return throwError(err);
-      })
-    );
 
-    // krijojme nje observebel i ri " const loadCourses$ " 
-    const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$); // marim array me obejkte te cilin e eshte observable
+    this.beginnerCourses$ = this.coursesStore.filterByCategory("BEGINNER");
+    this.advancedCourses$ = this.coursesStore.filterByCategory("ADVANCED");
 
-    // dhe e diferencojme ne this.beginnerCourses$ dhe this.advancedCourses$
-     this.beginnerCourses$ = loadCourses$.pipe(
+    // -----------------------------------------------------------------------------------------------
 
-      tap(data => console.log("data BEGINNER", data)),
-      map( courses => courses.filter(course => course.category == "BEGINNER"))
+    // const courses$ = this.coursesService.loadAllCourse().pipe(
+    //   map( courses => courses.sort(sortCoursesBySeqNo)), 
+    //   catchError(err => { 
+    //     const message = "Could not load courses";
+    //     this.messagesService.showErrors(message); 
+    //     console.log(message, err);
+    //     return throwError(err);  
+    //   })
+    // );
 
-     );
+    // const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$); 
+
+   
+    //  this.beginnerCourses$ = loadCourses$.pipe(
+    //   tap(data => console.log("data BEGINNER", data)),
+    //   map( courses => courses.filter(course => course.category == "BEGINNER"))
+    //  );
   
-     this.advancedCourses$ = loadCourses$.pipe(
+    //  this.advancedCourses$ = loadCourses$.pipe(
+    //   map( courses =>  courses.filter(course => course.category == "ADVANCED"))
+    //  );
 
-      map( courses =>  courses.filter(course => course.category == "ADVANCED"))
-
-     );
-
-
+  // --------------------------------------------------------------------------------------------------------
 
   // this.http.get('/api/courses')
   //   .subscribe(
@@ -86,6 +88,9 @@ export class HomeComponent implements OnInit {
   //       console.log("this.beginnerCourses", this.beginnerCourses);
   //       console.log("this.advancedCourses", this.advancedCourses); 
   //     });
+
+  // -------------------------------------------------------------------------------------------------------------
+
   }
 
  

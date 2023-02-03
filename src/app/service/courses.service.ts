@@ -15,18 +15,18 @@ export class CoursesService {
   // shareReplay() -> minimizon observable subscription ne XHR Network, nese e fshim do na paraqiten 2,
   // sepse kemi 2 subscription, this.beginnerCourses$ dhe this.advancedCourses$
 
-   loadAllCourse(): Observable<Course[]> {
-     return this.http.get<Course[]>('/api/courses')
-      .pipe( 
-        map(res => res["payload"]),
-        shareReplay()
-       );
-   }
+  //  loadAllCourse(): Observable<Course[]> {
+  //    return this.http.get<Course[]>('/api/courses')
+  //     .pipe( 
+  //       map(res => res["payload"]),
+  //       shareReplay()
+  //      );
+  //  }
 
-   saveCourse(courseId: string, changes: Partial<Course>): Observable<any> {
-    return this.http.put(`/api/courses/${courseId}`, changes).pipe(
-      shareReplay()
-    );
-   }
+  //  saveCourse(courseId: string, changes: Partial<Course>): Observable<any> {
+  //   return this.http.put(`/api/courses/${courseId}`, changes).pipe(
+  //     shareReplay()
+  //   );
+  //  }
 
 } 

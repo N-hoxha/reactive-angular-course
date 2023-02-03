@@ -14,19 +14,23 @@
           <!-- ku thirja na ndimon ti bejme reload serviseve qe kemi ne funkjonin " reloadCourses() ", me ndimen e: -->
           <!--  @Output() coursesChanges = new EventEmitter(); qe trasforton thirjen nga komponenti femi - prinde -->
           
-          <courses-card-list [courses]=" beginnerCourses$ | async" 
+          <!-- <courses-card-list [courses]=" beginnerCourses$ | async" 
                              (coursesChanges)="reloadCourses()">
-          </courses-card-list>
+          </courses-card-list> -->
+
+          <courses-card-list [courses]=" beginnerCourses$ | async">  </courses-card-list>
 
         </mat-tab>
+ 
 
-
-        <!-- mat tab 2 -->
+        <!-- mat tab 2 --> 
         <mat-tab label="Advanced">
 
-          <courses-card-list [courses]=" advancedCourses$ | async"
+          <!-- <courses-card-list [courses]=" advancedCourses$ | async"
                              (coursesChanges)="reloadCourses()">
-          </courses-card-list>
+          </courses-card-list> -->
+
+          <courses-card-list [courses]=" advancedCourses$ | async">  </courses-card-list>
 
         </mat-tab>
 

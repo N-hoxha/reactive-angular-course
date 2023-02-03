@@ -27,8 +27,7 @@ export class MessagesComponent implements OnInit {
     );
  
   } 
-
-  ngAfe
+ 
 
   onClose() {
    this.showMessages = false;
