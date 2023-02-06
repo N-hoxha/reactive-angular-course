@@ -41,7 +41,7 @@ export class CoursesStore {
 
        this.loadingService.showLoaderUntilCompleted(loadCourses$)
           .subscribe((response: any) => {
-            console.log(" this.loadingService.showLoaderUntilCompleted ", response);
+            // console.log(" this.loadingService.showLoaderUntilCompleted ", response);
            });
 
     }
@@ -75,7 +75,7 @@ export class CoursesStore {
         const newCourse: Course = { 
             ...courses[index], 
             ...changes,
-        };
+        }; 
        
         // rezultati, modifikojme objektin me ndimen e index dhe FormGroup
         console.log("newCourse", newCourse);

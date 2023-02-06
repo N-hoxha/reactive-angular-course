@@ -15,19 +15,21 @@
 
       <a mat-list-item routerLink="about">
         <mat-icon>question_answer</mat-icon>
-        <span>About</span>
+        <span>About</span> 
       </a>
       <a mat-list-item>
         <mat-icon>person_add</mat-icon>
         <span>Register</span>
       </a>
 
-      <a mat-list-item routerLink="login">
+      <!-- if isLoggedOut$ == true -> shfaqet | if isLoggedOut$ == false nuk shfaqet -->
+      <a mat-list-item routerLink="login" *ngIf="authStore.isLoggedOut$ | async">
         <mat-icon>account_circle</mat-icon>
         <span>Login</span>
-      </a>
+      </a> 
 
-      <a mat-list-item (click)="logout()">
+      <!-- if isLoggedIn$ == true -> shfaqet | if isLoggedIn$ == false nuk shfaqet -->
+      <a mat-list-item (click)="logout()" *ngIf="authStore.isLoggedIn$ | async">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
       </a>
