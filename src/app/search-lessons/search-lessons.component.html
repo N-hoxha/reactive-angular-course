@@ -8,10 +8,21 @@
 
   </mat-form-field>
 
-  <button class="search" mat-raised-button color="primary">
+  <button class="search" 
+          mat-raised-button color="primary"
+          (click)="onSearch(searchInput.value)">
     <mat-icon>search</mat-icon>
     Search
   </button>
+
+  <!-- ------------------------------- 1 -->
+  <!-- The " else detail " It behaves very similar to a JavaScript if (condition) { } else { } statement. -->
+  <!-- " !activeLesson; else detail " -> nese nuk ka te dhena brenda activeLesson nuk e shfaqet " ng-template #detail " -->
+  <!-- " activeLesson; else detail " -> nese ka te dhena, fshehim kete komponet dhe shfaqim komponentin me posht " ng-template #detail " -->
+  <ng-container *ngIf="!activeLesson; else detail"> 
+
+    <!-- Nese ka te dhena " searchResults$ " shfaqet container, te cilat me pas i bejme subscibe " async ", dhe me pas as lesson == *ngFor="let searchResults$ of lessons" -->
+  <ng-container *ngIf="(searchResults$ | async) as lessons">
 
     <table class="lessons-table mat-elevation-z7">
 
@@ -21,15 +32,40 @@
       <th>Duration</th>
       </thead>
 
-      <!-- tr class="lesson-row">
+      <!-- " (click)="openLesson(lesson)" " marim ate objekt qe klikojme brenda reshtit  -->
+      <!-- objekti qe marim aktivizon funksjonin " ng-container *ngIf="!activeLesson; else detail" " duke fshim dabelen me reshta -->
+      <!-- dhe reshtin qe klikuam duke e shfaqur ne nje komponet tjeter me ndimen e inputit " [lesson]="activeLesson" " -->
+      <!-- nese shtypim back " (click)="onBackToSearch()" ", e kthejme faqen perseri te dabela me objekte qe kemi bere search -->
+      <tr class="lesson-row" *ngFor="let lesson of lessons" (click)="openLesson(lesson)">
         <td class="seqno-cell">{{lesson.seqNo}}</td>
         <td class="description-cell">{{lesson.description}}</td>
         <td class="duration-cell">{{lesson.duration}}</td>
-      </tr -->
+    </tr>
 
     </table>
 
+  </ng-container>
 
+  </ng-container>
+
+  <!-------------------------------------------------- 1-->
+
+  <!-------------------------------------------------- 2-->
+
+  <!-- ne se ka te dhena nga "activeLesson", shfaqim kete template  -->
+  <ng-template #detail> <!-- matches with *ngIf="!activeLesson; else detail" -->
+
+    <button mat-raised-button class="back-btn" (click)="onBackToSearch()">
+      <mat-icon>arrow_back_ios</mat-icon>
+      Back to Search
+    </button>
+    
+
+    <lesson [lesson]="activeLesson"></lesson>
+
+  </ng-template>
+
+  <!-------------------------------------------------- 2-->
 
 </div>
 
