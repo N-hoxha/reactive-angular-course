@@ -42,4 +42,24 @@ export class CoursesService {
     );
   }
 
+  loadCourseById(courseId: number) {
+   return this.http.get<Course>(`/api/courses/${courseId}`).pipe(
+      shareReplay()
+    );
+  }
+
+  loadAllCourseLessons(courseId: number): Observable<Lesson[]> {
+    return this.http.get<Lesson[]>('/api/lessons', {
+      params: {
+        pageSize: "10000",
+        courseId: courseId.toString() // kthejme intiger ne string
+      }
+    }).pipe(
+      map(res => res["payload"]),
+      shareReplay()
+    );
+  }
+
+
+
 } 
